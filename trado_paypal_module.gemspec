@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = TradoPaypalModule::VERSION
   s.authors     = ["Tom Dallimore"]
   s.email       = ["me@tomdallimore.com"]
-  s.homepage    = "TODO"
+  s.homepage    = "http://trado.io"
   s.summary     = "TODO: Summary of TradoPaypalModule."
   s.description = "TODO: Description of TradoPaypalModule."
   s.license     = "MIT"
@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 4.2.6"
+  s.add_dependency 'offsite_payments'
+  s.add_dependency 'activemerchant', '1.43.3'
 
   s.add_development_dependency "sqlite3"
 end
