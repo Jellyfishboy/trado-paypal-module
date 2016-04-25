@@ -10,6 +10,10 @@ module TradoPaypalModule
 				end
 			end
 
+			def copy_helper
+				template "helper.rb", "app/helpers/paypal_helper.rb"
+			end
+
 			private
 
 			def paypal_migration_already_exists?
