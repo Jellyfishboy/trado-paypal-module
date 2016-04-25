@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Tom Dallimore"]
   s.email       = ["me@tomdallimore.com"]
   s.homepage    = "http://trado.io"
-  s.summary     = "TODO: Summary of TradoPaypalModule."
-  s.description = "TODO: Description of TradoPaypalModule."
+  s.summary     = "Module for Paypal payment functionality in the Trado Ecommerce platform."
+  s.description = "Module for Paypal payment functionality in the Trado Ecommerce platform."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
