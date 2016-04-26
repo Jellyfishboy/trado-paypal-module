@@ -7,16 +7,22 @@ Module for Paypal payment functionality in the Trado Ecommerce platform.
 
 Add module to your Gemfile:
 
-`gem 'trado_paypal_module', git: "git@github.com:Jellyfishboy/trado-paypal-module.git`
+```
+gem 'trado_paypal_module', git: "git@github.com:Jellyfishboy/trado-paypal-module.git
+```
 
 Then run bundle to install the Gem:
 
-`bundle install`
+```
+bundle install
+```
 
 Now generate the migrations, create helpers, set up environment configurations and assign model concerns:
 
-`rails generate trado_paypal_module:install`
-`rake db:migrate`
+```
+rails generate trado_paypal_module:install
+rake db:migrate
+```
 
 Assign Paypal sensitive data:
 
