@@ -14,6 +14,14 @@ module TradoPaypalModule
 				template "helper.rb", "app/helpers/paypal_helper.rb"
 			end
 
+			def setup_routes
+				route_content = <<-CONTENT
+
+	mount TradoPaypalModule::Engine => '/paypal'
+				CONTENT
+				inject_into_file "config/routes.rb", route_content, after: "Trado::Application.routes.draw do"
+			end
+
 			def assign_model_concerns
 				order_content = <<-CONTENT
 
