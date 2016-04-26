@@ -13,20 +13,20 @@ module TradoPaypalModule
         def self.build cart, order, ip_address
           response = EXPRESS_GATEWAY.setup_purchase(
                         Store::Price.new(price: order.gross_amount, tax_type: 'net').singularize, 
-                        Payatron4000::Paypal.express_setup_options( 
+                        TradoPaypalModule::Paypaler.express_setup_options( 
                           order,
                           cart,
                           ip_address, 
-                          Rails.application.routes.url_helpers.confirm_order_url(order), 
-                          Rails.application.routes.url_helpers.mycart_carts_url
+                          Rails.application.routes.url_helpers.confirm_order_url(order, host: Trado::Application.config.action_mailer.default_url_options[:host]), 
+                          Rails.application.routes.url_helpers.mycart_carts_url(host: Trado::Application.config.action_mailer.default_url_options[:host])
                         )
           )
           if response.success?
             return EXPRESS_GATEWAY.redirect_url_for(response.token)
           else
-            Payatron4000::Paypal.failed(response, order)
+            TradoPaypalModule::Paypaler.failed(response, order)
             Payatron4000.decommission_order(order)
-            return Rails.application.routes.url_helpers.failed_order_url(order)
+            return Rails.application.routes.url_helpers.failed_order_url(order, host: Trado::Application.config.action_mailer.default_url_options[:host])
           end
         end
 
@@ -45,7 +45,7 @@ module TradoPaypalModule
               :tax               => Store::Price.new(price: order.tax_amount, tax_type: 'net').singularize,
               :handling          => 0,
               :order_id          => order.id,
-              :items             => Payatron4000::Paypal.express_items(cart),
+              :items             => TradoPaypalModule::Paypaler.express_items(cart),
               :ip                => ip_address,
               :return_url        => return_url,
               :cancel_return_url => cancel_url,
@@ -102,20 +102,20 @@ module TradoPaypalModule
         # @param session [Object
         def self.complete order, session
           response = EXPRESS_GATEWAY.purchase(Store::Price.new(price: order.gross_amount, tax_type: 'net').singularize, 
-                                              Payatron4000::Paypal.express_purchase_options(order)
+                                              TradoPaypalModule::Paypaler.express_purchase_options(order)
           )
           Payatron4000.decommission_order(order)
           if response.success?
-            Payatron4000::Paypal.successful(response, order)
+            TradoPaypalModule::Paypaler.successful(response, order)
             Payatron4000.destroy_cart(session)
             order.reload
             Mailatron4000::Orders.confirmation_email(order)
-            return Rails.application.routes.url_helpers.success_order_url(order)
+            return Rails.application.routes.url_helpers.success_order_url(order, host: Trado::Application.config.action_mailer.default_url_options[:host])
           else
-            Payatron4000::Paypal.failed(response, order)
+            TradoPaypalModule::Paypaler.failed(response, order)
             order.reload
             Mailatron4000::Orders.confirmation_email(order)
-            return Rails.application.routes.url_helpers.failed_order_url(order)
+            return Rails.application.routes.url_helpers.failed_order_url(order, host: Trado::Application.config.action_mailer.default_url_options[:host])
           end
         end
 
