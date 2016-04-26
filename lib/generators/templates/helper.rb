@@ -1,7 +1,6 @@
 module PaypalHelper
 
     def paypal_form_tag
-        "<div>#{image_tag('paypal-icon.png')}</div>
-        #{radio_button_tag(:payment_type, 'express-checkout', checked: true)}"
+        raw("<div class='paypal-form-wrapper'>#{image_tag('paypal-icon.png')}#{radio_button_tag(:payment_type, 'express-checkout')}</div>")
     end
 end
