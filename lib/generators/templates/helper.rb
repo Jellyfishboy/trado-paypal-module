@@ -1,6 +1,7 @@
 module PaypalHelper
 
-    # def paypal_active?
-    #     Object.const_defined?('TradoPaypalModule') ? true : false
-    # end
+    def paypal_form_tag
+        "<div>#{image_tag('paypal-icon.png')}</div>
+        #{radio_button_tag(:payment_type, 'express-checkout', checked: true)}"
+    end
 end
