@@ -1,74 +1,43 @@
-# trado-paypal-module
+![alt text](http://cdn0.trado.io/trado-promo/assets/img/cropped.png "Trado")
+
+# Paypal Module
 Module for Paypal payment functionality in the Trado Ecommerce platform.
 
-## Paypal
+## Installation
 
-Run `rails generate trado_paypal_module:install`
+Add module to your Gemfile:
 
-Update database `rake db:migrate`
+`gem 'trado_paypal_module', git: "git@github.com:Jellyfishboy/trado-paypal-module.git`
 
-Restart main application server `foreman start -f Procfile.dev`
+Then run bundle to install the Gem:
 
-### Secrets
+`bundle install`
 
-#### Development, Production
+Now generate the migrations, create helpers, set up environment configurations and assign model concerns:
+
+`rails generate trado_paypal_module:install`
+`rake db:migrate`
+
+Assign Paypal sensitive data:
+
+**config/secrets.yml**
 
 ```
+development:
+    transaction_link: "https://sandbox.paypal.com/cgi-bin/webscr?cmd=_view-a-trans&id="  
+    paypal_login: me@example.com  
+    paypal_password: 873264823432  
+    paypal_signature: VUYWIUBDBDQowqdgiuwdowbqwbQDQJW6  
+production:
     transaction_link: "https://sandbox.paypal.com/cgi-bin/webscr?cmd=_view-a-trans&id="  
     paypal_login: me@example.com  
     paypal_password: 873264823432  
     paypal_signature: VUYWIUBDBDQowqdgiuwdowbqwbQDQJW6  
 ```
 
-### Environment configs
+Restart the main application server:
 
-#### Test
+`foreman start -f Procfile.dev`
 
-```
-    config.after_initialize do
-        ActiveMerchant::Billing::Base.mode = :test
-        ::EXPRESS_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
-    end
-```
 
-#### Development
-    
-```
-    config.after_initialize do
-        ActiveMerchant::Billing::Base.mode = :test
-        paypal_options = {
-            login: Rails.application.secrets.paypal_login,
-            password: Rails.application.secrets.paypal_password,
-            signature: Rails.application.secrets.paypal_signature
-        }
-        ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
-    end
-```
-
-#### Production
-
-```
-    config.after_initialize do
-        paypal_options = {
-            login: Rails.application.secrets.paypal_login,
-            password: Rails.application.secrets.paypal_password,
-            signature: Rails.application.secrets.paypal_signature
-        }
-        ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
-    end
-```
-
-### Models
-
-#### Order
-
-`has_order_paypal`
-
-#### Transaction
-
-`has_transation_paypal`
-
-#### StoreSetting
-
-`has_store_setting_paypal`
 
