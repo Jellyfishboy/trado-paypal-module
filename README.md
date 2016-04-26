@@ -8,7 +8,7 @@ Module for Paypal payment functionality in the Trado Ecommerce platform. If you 
 Add module to your Gemfile:
 
 ```ruby
-gem 'trado_paypal_module', git: "git@github.com:Jellyfishboy/trado-paypal-module.git
+gem 'trado_paypal_module', git: "git@github.com:Jellyfishboy/trado-paypal-module.git"
 ```
 
 Then run bundle to install the Gem:
