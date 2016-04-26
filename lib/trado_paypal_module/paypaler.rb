@@ -63,8 +63,8 @@ module TradoPaypalModule
               :shipping          => Store::Price.new(price: order.delivery.price, tax_type: 'net').singularize,
               :tax               => Store::Price.new(price: order.tax_amount, tax_type: 'net').singularize,
               :handling          => 0,
-              :token             => order.express_token,
-              :payer_id          => order.express_payer_id,
+              :token             => order.paypal_express_token,
+              :payer_id          => order.paypal_express_payer_id,
               :currency          => Store.settings.paypal_currency_code,
             }
         end
@@ -90,8 +90,8 @@ module TradoPaypalModule
         # @param payer_id [Integer]
         # @param order [Object]
         def self.assign_paypal_token token, payer_id, order
-            order.express_token = token
-            order.express_payer_id = payer_id
+            order.paypal_express_token = token
+            order.paypal_express_payer_id = payer_id
             order.save(validate: false)
         end
 
