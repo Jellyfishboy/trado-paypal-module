@@ -11,7 +11,7 @@ module TradoPaypalModule
                 end
             end
 
-            def has_transation_paypal
+            def has_transaction_paypal
                 attr_accessible :paypal_id
             end
 
