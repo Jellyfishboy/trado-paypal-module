@@ -40,7 +40,7 @@ production:
     paypal_password: 873264823432  
     paypal_signature: VUYWIUBDBDQowqdgiuwdowbqwbQDQJW6  
 ```
-*(You can sign up for a PayPal developer account at the [developer dashboard](https://developer.paypal.com)g)*
+*(You can sign up for a PayPal developer account at the [developer dashboard](https://developer.paypal.com))*
 
 Restart the main application server:
 
