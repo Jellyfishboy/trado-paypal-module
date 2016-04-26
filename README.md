@@ -17,7 +17,7 @@ Then run bundle to install the Gem:
 bundle install
 ```
 
-Now generate the migrations, create helpers, set up environment configurations and assign model concerns:
+Now generate migrations, create helpers, set up environment configurations and assign model concerns:
 
 ```sh
 rails generate trado_paypal_module:install
@@ -40,6 +40,7 @@ production:
     paypal_password: 873264823432  
     paypal_signature: VUYWIUBDBDQowqdgiuwdowbqwbQDQJW6  
 ```
+*(You can sign up for a PayPal developer account at the [developer dashboard](https://developer.paypal.com))*
 
 Restart the main application server:
 

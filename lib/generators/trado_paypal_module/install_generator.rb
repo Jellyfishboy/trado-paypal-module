@@ -16,13 +16,16 @@ module TradoPaypalModule
 
 			def assign_model_concerns
 				order_content = <<-CONTENT
-					has_order_paypal
+
+	has_order_paypal
 				CONTENT
 				transaction_content = <<-CONTENT
-					has_transaction_paypal
+
+	has_transaction_paypal
 				CONTENT
 				store_setting_content = <<-CONTENT
-					has_store_setting_paypal
+
+	has_store_setting_paypal
 				CONTENT
 
 				inject_into_file "app/models/order.rb", order_content, after: "class Order < ActiveRecord::Base"
@@ -32,36 +35,39 @@ module TradoPaypalModule
 
 			def setup_env_configs
 				development_content = <<-CONTENT
-					# PayPal settings
-					config.after_initialize do
-					    ActiveMerchant::Billing::Base.mode = :test
-					    paypal_options = {
-					      login: Rails.application.secrets.paypal_login,
-					      password: Rails.application.secrets.paypal_password,
-					      signature: Rails.application.secrets.paypal_signature
-					    }
-					    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
-					  end
+
+	# PayPal settings
+	config.after_initialize do
+	    ActiveMerchant::Billing::Base.mode = :test
+	    paypal_options = {
+	     	login: Rails.application.secrets.paypal_login,
+	     	password: Rails.application.secrets.paypal_password,
+	     	signature: Rails.application.secrets.paypal_signature
+	    }
+	    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
+	end
 				CONTENT
 
 				test_content = <<-CONTENT
-					# PayPal settings
-					config.after_initialize do
-					    ActiveMerchant::Billing::Base.mode = :test
-					    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
-					  end
+
+	# PayPal settings
+	config.after_initialize do
+		ActiveMerchant::Billing::Base.mode = :test
+	    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
+	end
 				CONTENT
 
 				production_content = <<-CONTENT
-					# PayPal settings
-					config.after_initialize do
-					    paypal_options = {
-					      login: Rails.application.secrets.paypal_login,
-					      password: Rails.application.secrets.paypal_password,
-					      signature: Rails.application.secrets.paypal_signature
-					    }
-					    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
-					  end
+
+	# PayPal settings
+	config.after_initialize do
+	    paypal_options = {
+	    	login: Rails.application.secrets.paypal_login,
+	    	password: Rails.application.secrets.paypal_password,
+	    	signature: Rails.application.secrets.paypal_signature
+	    }
+	    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
+	end
 				CONTENT
 				inject_into_file "config/environments/development.rb", development_content, after: "Trado::Application.configure do"
 				inject_into_file "config/environments/test.rb", test_content, after: "Trado::Application.configure do"
