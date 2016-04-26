@@ -1,6 +1,6 @@
 module TradoPaypalModule
 
-    class PayPaler
+    class Paypaler
 
         # Builds the a PayPal purchase request from the order data
         # If successful, redirect to PayPal for the user to login
