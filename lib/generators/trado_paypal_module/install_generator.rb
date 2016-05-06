@@ -14,6 +14,10 @@ module TradoPaypalModule
 				template "helper.rb", "app/helpers/paypal_helper.rb"
 			end
 
+			def copy_controller
+				template "controller.rb", "app/controllers/carts/paypal_controller.rb"
+			end
+
 			def setup_routes
 				route_content = <<-CONTENT
 
