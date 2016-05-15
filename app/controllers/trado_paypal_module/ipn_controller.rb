@@ -1,5 +1,4 @@
 class TradoPaypalModule::IpnController < ApplicationController
-
   skip_before_action :authenticate_user!
 
   include ActiveMerchant::Billing::Integrations

@@ -9,6 +9,8 @@ Add module to your Gemfile:
 
 ```ruby
 gem 'trado_paypal_module', git: "git@github.com:Jellyfishboy/trado-paypal-module.git"
+gem 'offsite_payments'
+gem 'activemerchant'
 ```
 
 Then run bundle to install the Gem:

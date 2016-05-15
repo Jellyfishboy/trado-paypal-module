@@ -1,4 +1,5 @@
 class Carts::PaypalController < ApplicationController
+    skip_before_action :authenticate_user!
     include CartBuilder
 
     def confirm
