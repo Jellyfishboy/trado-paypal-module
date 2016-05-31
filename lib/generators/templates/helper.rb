@@ -1,6 +1,6 @@
 module PaypalHelper
 
-    def paypal_form_tag
-        raw("<div class='paypal-form-wrapper'>#{radio_button_tag(:payment_type, 'paypal', checked: true)}#{image_tag('paypal-icon.png')}</div>")
+    def paypal_form_tag f
+        raw("<div class='paypal-form-wrapper'>#{f.radio_button(:payment_type, 'paypal', checked: true)}#{image_tag('paypal-icon.png')}</div>")
     end
 end

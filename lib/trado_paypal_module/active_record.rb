@@ -5,12 +5,6 @@ module TradoPaypalModule
         module ClassMethods
             def has_order_paypal
                 attr_accessible :paypal_express_token, :paypal_express_payer_id
-                
-                scope :paypal, -> { completed_collection.where(transactions: { payment_type: 'express-checkout' }) }
-
-                def paypal?
-                    payment_type == 'paypal' ? true : false
-                end
             end
 
             def has_transaction_paypal

@@ -20,6 +20,6 @@ Gem::Specification.new do |s|
     s.add_dependency "rails", "~> 4.2.6"
     s.add_dependency 'offsite_payments'
     s.add_dependency 'activemerchant'
-
+    
     s.add_development_dependency "sqlite3"
 end

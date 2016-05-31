@@ -7,6 +7,7 @@ class Carts::PaypalController < ApplicationController
         set_cart_totals
         set_cart_session
         set_delivery_services
+        set_grouped_countries
         @order.attributes = params[:order]
         session[:payment_type] = params[:payment_type]
         if @order.save
@@ -31,5 +32,9 @@ class Carts::PaypalController < ApplicationController
 
     def generate_payment_url
         @redirect_url = Store::PayProvider.new(cart: current_cart, order: @order, provider: session[:payment_type], ip_address: request.remote_ip).build
+    end
+
+    def set_grouped_countries
+        @grouped_countries = [Country.popular.map{ |country| [country.name, country.name] }, Country.all.order('name ASC').map{ |country| [country.name, country.name] }] 
     end
 end

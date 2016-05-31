@@ -40,7 +40,7 @@ module TradoPaypalModule
         # @return [Object] order data from the store for PayPal
         def self.express_setup_options order, cart, ip_address, return_url, cancel_url
             {
-              :subtotal          => Store::Price.new(price: order.net_amount, tax_type: 'net').singularize,
+              :subtotal          => Store::Price.new(price: (order.net_amount - order.delivery.price), tax_type: 'net').singularize,
               :shipping          => Store::Price.new(price: order.delivery.price, tax_type: 'net').singularize,
               :tax               => Store::Price.new(price: order.tax_amount, tax_type: 'net').singularize,
               :handling          => 0,
@@ -59,7 +59,7 @@ module TradoPaypalModule
         # @return [Object] current customer order
         def self.express_purchase_options order
             {
-              :subtotal          => Store::Price.new(price: order.net_amount, tax_type: 'net').singularize,
+              :subtotal          => Store::Price.new(price: (order.net_amount - order.delivery.price), tax_type: 'net').singularize,
               :shipping          => Store::Price.new(price: order.delivery.price, tax_type: 'net').singularize,
               :tax               => Store::Price.new(price: order.tax_amount, tax_type: 'net').singularize,
               :handling          => 0,

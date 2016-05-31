@@ -1,7 +1,8 @@
 class TradoPaypalModule::IpnController < ApplicationController
   skip_before_action :authenticate_user!
 
-  include ActiveMerchant::Billing::Integrations
+  # TODO: Find out why this is throwing an error.
+  # include ActiveMerchant::Billing::Integrations
 
   # Handler for incoming Instant Payment Notifications from paypal about orders
   def update
