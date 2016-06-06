@@ -1,3 +1,5 @@
+require_dependency 'lib/payatron_4000'
+
 module TradoPaypalModule
 
     class Paypaler
