@@ -16,6 +16,7 @@ class Carts::PaypalController < ApplicationController
             generate_payment_url
             if @redirect_url.nil?
                 flash_message :error, 'An error ocurred with your order. Please try again.'
+                Rails.logger.error "PayPal: Unable to generate redirect URL."
                 redirect_to checkout_carts_url
             else
                 redirect_to @redirect_url
@@ -26,7 +27,7 @@ class Carts::PaypalController < ApplicationController
         end
     rescue ActiveMerchant::ConnectionError
         flash_message :error, 'An error ocurred with your order. Please try again.'  
-        Rails.logger.error "#{params[:payment_type]}: This payment provider API is temporarily unavailable."
+        Rails.logger.error "PayPal: API is temporarily unavailable."
         redirect_to checkout_carts_url
     end
 

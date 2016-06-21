@@ -42,16 +42,19 @@ module TradoPaypalModule
         # @return [Object] order data from the store for PayPal
         def self.express_setup_options order, cart, ip_address, return_url, cancel_url
             {
-              :subtotal          => Store::Price.new(price: (order.net_amount - order.delivery.price), tax_type: 'net').singularize,
-              :shipping          => Store::Price.new(price: order.delivery.price, tax_type: 'net').singularize,
-              :tax               => Store::Price.new(price: order.tax_amount, tax_type: 'net').singularize,
-              :handling          => 0,
-              :order_id          => order.id,
-              :items             => TradoPaypalModule::Paypaler.express_items(cart),
-              :ip                => ip_address,
-              :return_url        => return_url,
-              :cancel_return_url => cancel_url,
-              :currency          => Store.settings.paypal_currency_code,
+              :subtotal               => Store::Price.new(price: (order.net_amount - order.delivery.price), tax_type: 'net').singularize,
+              :shipping               => Store::Price.new(price: order.delivery.price, tax_type: 'net').singularize,
+              :tax                    => Store::Price.new(price: order.tax_amount, tax_type: 'net').singularize,
+              :handling               => 0,
+              :order_id               => order.id,
+              :items                  => TradoPaypalModule::Paypaler.express_items(cart.cart_items),
+              :address_override       => 1,
+              :shipping_address       => order.delivery_address.full_address,
+              :req_confirm_shipping   => 0,
+              :ip                     => ip_address,
+              :return_url             => return_url,
+              :cancel_return_url      => cancel_url,
+              :currency               => Store.settings.paypal_currency_code,
             }
         end
 
@@ -65,21 +68,22 @@ module TradoPaypalModule
               :shipping          => Store::Price.new(price: order.delivery.price, tax_type: 'net').singularize,
               :tax               => Store::Price.new(price: order.tax_amount, tax_type: 'net').singularize,
               :handling          => 0,
+              :items             => TradoPaypalModule::Paypaler.express_items(order.order_items),
               :token             => order.paypal_express_token,
               :payer_id          => order.paypal_express_payer_id,
               :currency          => Store.settings.paypal_currency_code,
             }
         end
 
-        # Creates an aray of items which represent cart_items
-        # This is passed into the express_setup_options method
+        # Creates an aray of items which represent cart_items or order_items
+        # This is passed into the express_setup_options and express_purchase_options methods
         #
-        # @return [Array] list of cart items for PayPal
-        def self.express_items cart
-            cart.cart_items.collect do |item|
+        # @return [Array] list of cart or order items for PayPal
+        def self.express_items items
+            items.collect do |item|
                 {
                   :name               => item.sku.product.name,
-                  :description        => item.sku.variants.map{|v| v.name.titleize}.join(' / '),
+                  :description        => "#{item.sku.product.name} (#{item.sku.variants.map{|v| v.name.titleize}.join(' / ')})",
                   :amount             => Store::Price.new(price: item.price, tax_type: 'net').singularize, 
                   :quantity           => item.quantity 
                 }
@@ -132,7 +136,7 @@ module TradoPaypalModule
                               :transaction_type         => 'Credit', 
                               :tax_amount               => response.params['PaymentInfo']['TaxAmount'], 
                               :paypal_id                => response.params['PaymentInfo']['TransactionID'], 
-                              :payment_type             => response.params['PaymentInfo']['TransactionType'],
+                              :payment_type             => 'paypal',
                               :net_amount               => response.params['PaymentInfo']['GrossAmount'].to_d - response.params['PaymentInfo']['TaxAmount'].to_d,
                               :gross_amount             => response.params['PaymentInfo']['GrossAmount'],
                               :status_reason            => response.params['PaymentInfo']['PendingReason']
@@ -154,7 +158,7 @@ module TradoPaypalModule
                               :transaction_type           => 'Credit', 
                               :tax_amount                 => order.tax_amount, 
                               :paypal_id                  => nil, 
-                              :payment_type               => 'express-checkout',
+                              :payment_type               => 'paypal',
                               :net_amount                 => order.net_amount,
                               :status_reason              => response.message,
                               :error_code                 => response.params["error_codes"].to_i
