@@ -15,16 +15,17 @@ class Carts::PaypalController < ApplicationController
             @order.transfer(current_cart)
             generate_payment_url
             if @redirect_url.nil?
-                flash_message :error, 'An error ocurred when trying to complete your order. Please try again.'
+                flash_message :error, 'An error ocurred with your order. Please try again.'
                 redirect_to checkout_carts_url
             else
                 redirect_to @redirect_url
             end
         else
+            flash_message :error, 'An error ocurred with your order. Please try again.'
             render theme_presenter.page_template_path('carts/checkout'), layout: theme_presenter.layout_template_path
         end
     rescue ActiveMerchant::ConnectionError
-        flash_message :error, 'An error ocurred when trying to complete your order. Please try again.'  
+        flash_message :error, 'An error ocurred with your order. Please try again.'  
         Rails.logger.error "#{params[:payment_type]}: This payment provider API is temporarily unavailable."
         redirect_to checkout_carts_url
     end
