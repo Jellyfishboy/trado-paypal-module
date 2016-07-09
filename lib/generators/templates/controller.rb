@@ -8,6 +8,7 @@ class Carts::PaypalController < ApplicationController
         set_cart_session
         set_delivery_services
         set_grouped_countries
+        set_browser_data
         @order.attributes = params[:order]
         session[:payment_type] = params[:payment_type]
         if @order.save
