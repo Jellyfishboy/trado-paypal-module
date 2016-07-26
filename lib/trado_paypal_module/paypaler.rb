@@ -107,13 +107,14 @@ module TradoPaypalModule
         # @param order [Object]
         # @param session [Object
         def self.complete order, session
+          order.transfer(order.cart)
           response = EXPRESS_GATEWAY.purchase(Store::Price.new(price: order.gross_amount, tax_type: 'net').singularize, 
                                               TradoPaypalModule::Paypaler.express_purchase_options(order)
           )
-          Payatron4000.decommission_order(order)
           if response.success?
             TradoPaypalModule::Paypaler.successful(response, order)
             Payatron4000.destroy_cart(session)
+            Payatron4000.decommission_order(order)
             order.reload
             Mailatron4000::Orders.confirmation_email(order)
             return Rails.application.routes.url_helpers.success_order_url(order, host: Trado::Application.config.action_mailer.default_url_options[:host])

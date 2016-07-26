@@ -13,7 +13,6 @@ class TradoPaypalModule::PaypalController < ApplicationController
         session[:payment_type] = params[:payment_type]
         if @order.save
             @order.calculate(current_cart, Store.tax_rate)
-            @order.transfer(current_cart)
             generate_payment_url
             if @redirect_url.nil?
                 flash_message :error, 'An error ocurred with your order. Please try again.'
