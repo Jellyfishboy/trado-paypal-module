@@ -10,12 +10,6 @@ module TradoPaypalModule
             def has_transaction_paypal
                 attr_accessible :paypal_id
             end
-
-            def has_store_setting_paypal
-                attr_accessible :paypal_currency_code
-
-                validates :paypal_currency_code, presence: true
-            end
         end
     end
 end

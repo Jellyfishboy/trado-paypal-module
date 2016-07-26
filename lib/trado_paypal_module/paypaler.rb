@@ -54,7 +54,7 @@ module TradoPaypalModule
               :ip                     => ip_address,
               :return_url             => return_url,
               :cancel_return_url      => cancel_url,
-              :currency               => Store.settings.paypal_currency_code,
+              :currency               => Store.settings.currency_code,
             }
         end
 
@@ -71,7 +71,7 @@ module TradoPaypalModule
               :items             => TradoPaypalModule::Paypaler.express_items(order.order_items),
               :token             => order.paypal_express_token,
               :payer_id          => order.paypal_express_payer_id,
-              :currency          => Store.settings.paypal_currency_code,
+              :currency          => Store.settings.currency_code,
             }
         end
 

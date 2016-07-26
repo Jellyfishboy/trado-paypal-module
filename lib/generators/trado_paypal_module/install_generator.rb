@@ -35,14 +35,9 @@ module TradoPaypalModule
 
 	has_transaction_paypal
 				CONTENT
-				store_setting_content = <<-CONTENT
-
-	has_store_setting_paypal
-				CONTENT
 
 				inject_into_file "app/models/order.rb", order_content, after: "class Order < ActiveRecord::Base"
 				inject_into_file "app/models/transaction.rb", transaction_content, after: "class Transaction < ActiveRecord::Base"
-				inject_into_file "app/models/store_setting.rb", store_setting_content, after: "class StoreSetting < ActiveRecord::Base"
 			end
 
 			def setup_env_configs
