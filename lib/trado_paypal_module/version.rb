@@ -1,3 +1,3 @@
 module TradoPaypalModule
-    VERSION = "0.3"
+    VERSION = "0.7.0"
 end
