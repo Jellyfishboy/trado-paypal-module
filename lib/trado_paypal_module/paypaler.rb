@@ -210,5 +210,9 @@ module TradoPaypalModule
             ]
             return @fatal_codes.include?(error_code) ? true : false
         end
+
+        def self.valid_tokens? params
+          params[:token].present? && params[:PayerID].present?
+        end
     end
 end
