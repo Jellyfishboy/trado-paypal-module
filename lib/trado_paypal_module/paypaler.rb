@@ -62,7 +62,7 @@ module TradoPaypalModule
         #
         # @param order [Object]
         # @return [Object] current customer order
-        def self.express_purchase_options order
+        def self.express_purchase_options order, ip_address
             {
               :subtotal          => Store::Price.new(price: (order.net_amount - order.delivery.price), tax_type: 'net').singularize,
               :shipping          => Store::Price.new(price: order.delivery.price, tax_type: 'net').singularize,
@@ -72,6 +72,7 @@ module TradoPaypalModule
               :token             => order.paypal_express_token,
               :payer_id          => order.paypal_express_payer_id,
               :currency          => Store.settings.currency_code,
+              :ip                => ip_address,
             }
         end
 
@@ -106,10 +107,10 @@ module TradoPaypalModule
         #
         # @param order [Object]
         # @param session [Object
-        def self.complete order, session
+        def self.complete order, session, ip_address
           order.transfer(order.cart)
           response = EXPRESS_GATEWAY.purchase(Store::Price.new(price: order.gross_amount, tax_type: 'net').singularize, 
-                                              TradoPaypalModule::Paypaler.express_purchase_options(order)
+                                              TradoPaypalModule::Paypaler.express_purchase_options(order, ip_address)
           )
           if response.success?
             TradoPaypalModule::Paypaler.successful(response, order)
