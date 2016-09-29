@@ -5,12 +5,9 @@ class TradoPaypalModule::PaypalController < ApplicationController
     def confirm
         set_order
         set_cart_totals
-        set_cart_session
-        set_delivery_services
         set_grouped_countries
         set_browser_data
         @order.attributes = params[:order]
-        session[:payment_type] = params[:payment_type]
         if @order.save
             @order.calculate(current_cart, Store.tax_rate)
             generate_payment_url
@@ -35,9 +32,5 @@ class TradoPaypalModule::PaypalController < ApplicationController
 
     def generate_payment_url
         @redirect_url = Store::PayProvider.new(cart: current_cart, order: @order, provider: @order.payment_type, ip_address: request.remote_ip).build
-    end
-
-    def set_grouped_countries
-        @grouped_countries = [Country.popular.map{ |country| [country.name, country.name] }, Country.all.order('name ASC').map{ |country| [country.name, country.name] }] 
     end
 end
