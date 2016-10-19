@@ -10,10 +10,6 @@ module TradoPaypalModule
 				end
 			end
 
-			def copy_helper
-				template "helper.rb", "app/helpers/paypal_helper.rb"
-			end
-
 			def copy_controller
 				template "controller.rb", "app/controllers/carts/paypal_controller.rb"
 			end
