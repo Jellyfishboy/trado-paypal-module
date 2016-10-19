@@ -47,7 +47,7 @@ production:
 You can also customise the HTML for the PayPal fields in your checkout:
 
 ```sh
-rails generate trado_stripe_module:views
+rails generate trado_paypal_module:views
 ```
 
 Restart the main application server:
