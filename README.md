@@ -1,6 +1,6 @@
-![alt text](http://cdn0.trado.io/trado-promo/assets/img/cropped.png "Trado")
+![alt text](http://cdn2.tomdallimore.com/assets/paypal-link-img.png "Trado")
 
-# Paypal Module
+# Paypal Payment
 
 [![Gem Version](https://badge.fury.io/rb/trado_paypal_module.svg)](https://badge.fury.io/rb/trado_paypal_module)
 
